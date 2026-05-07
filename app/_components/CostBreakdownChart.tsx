@@ -104,6 +104,7 @@ export function CostBreakdownChart({
                   name={seg.label}
                   stackId="cost"
                   fill={seg.fill}
+                  isAnimationActive={false}
                 />
               ))}
             </BarChart>

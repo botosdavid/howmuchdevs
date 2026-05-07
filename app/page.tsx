@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { Calculator } from "./_components/Calculator";
+import { TAB_KEYS, type TabKey } from "@/lib/tabs";
 import { DEFAULTS, type Inputs } from "@/lib/constants";
 import type { ModelInfo } from "@/lib/simulate";
 
@@ -80,9 +81,16 @@ export default async function Home({
     delayCostPerMonth: readNumber(sp.dc, DEFAULTS.delayCostPerMonth),
   };
 
+  const requestedTab = readString(sp.tab, "cost");
+  const initialTab: TabKey = (TAB_KEYS as readonly string[]).includes(
+    requestedTab,
+  )
+    ? (requestedTab as TabKey)
+    : "cost";
+
   return (
     <main className="flex flex-col flex-1 w-full">
-      <div className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col gap-8">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 py-10 sm:py-16 flex flex-col gap-8">
         <header className="flex flex-col gap-3">
           <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
             How Much Devs
@@ -101,7 +109,11 @@ export default async function Home({
           </p>
         </header>
 
-        <Calculator initialInputs={initial} models={models} />
+        <Calculator
+          initialInputs={initial}
+          initialTab={initialTab}
+          models={models}
+        />
       </div>
     </main>
   );
